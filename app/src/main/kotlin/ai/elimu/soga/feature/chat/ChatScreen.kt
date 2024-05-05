@@ -40,10 +40,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ai.elimu.soga.GenerativeViewModelFactory
 import ai.elimu.soga.R
+import ai.elimu.soga.ui.theme.Gold80
+import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeCap
 import kotlinx.coroutines.launch
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -52,11 +59,23 @@ import androidx.compose.ui.res.painterResource
 internal fun ChatRoute(
     chatViewModel: ChatViewModel = viewModel(factory = GenerativeViewModelFactory)
 ) {
+    Log.i("Mytag","ChatRoute")
     val chatUiState by chatViewModel.uiState.collectAsState()
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
+
     Scaffold(
+        topBar = {
+          //  backgroundColor="transparent"
+            LinearProgressIndicator(
+                progress = chatViewModel.pointCounter,
+                modifier = Modifier.height(30.dp).fillMaxWidth().padding(10.dp,0.dp),
+                color = Gold80,
+                trackColor = Color.Black,
+                strokeCap = StrokeCap.Round,
+            )
+        },
         bottomBar = {
             MessageInput(
                 onSendMessage = { inputText ->
@@ -208,7 +227,7 @@ fun MessageInput(
                     .fillMaxWidth()
                     .weight(0.15f)
             ) {
-               Icon(
+                Icon(
                     Icons.Default.Send,
                     contentDescription = stringResource(R.string.action_send),
                     modifier = Modifier

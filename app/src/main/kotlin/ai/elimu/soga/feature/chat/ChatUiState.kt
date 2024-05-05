@@ -1,5 +1,6 @@
 package ai.elimu.soga.feature.chat
 
+import android.util.Log
 import androidx.compose.runtime.toMutableStateList
 
 class ChatUiState(
@@ -18,6 +19,7 @@ class ChatUiState(
             val newMessage = lastMessage.apply { isPending = false }
             _messages.removeLast()
             _messages.add(newMessage)
+            Log.i("Mytag","ChatUiState")
         }
     }
 }
